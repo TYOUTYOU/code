@@ -18,7 +18,11 @@
 
         <?php
         require_once 'hw2_dbm.php';
-        if(!empty($_POST['sub'])) {
+        $id = isset($_POST['id'])? htmlspecialchars($_POST['id']) : null;;
+        $name = isset($_POST['name'])? htmlspecialchars($_POST['name']) : null;;
+        $con = isset($_POST['con'])? htmlspecialchars($_POST['con']) : null;;
+
+        if($id!='' and $name!='' and $con!='' and !empty($_POST['sub'])) { //id,ユーザー名、本文に内容を入れているかどうかを確認する
             try {
                 $db = getDb();
                 $s = $db->prepare('INSERT INTO usercontents(id,name,contents)VALUES(:id, :name, :con)');//データベースにデータを入れる
