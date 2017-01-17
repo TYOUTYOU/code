@@ -16,7 +16,7 @@
             <input type="submit" name="sub" value="投稿">
         </form>
 
-        <?php
+        <?php  //入力した内容をデータベースに登録する
         require_once 'hw2_dbm.php';
         $id = isset($_POST['id'])? htmlspecialchars($_POST['id']) : null;;
         $name = isset($_POST['name'])? htmlspecialchars($_POST['name']) : null;;
@@ -42,7 +42,7 @@
 
     <section>
         <h2>投稿内容</h2>
-        <?php
+        <?php //データベースのなかのデータを表示する
         require_once 'Encode.php';
        try {
            $db = getDb();
