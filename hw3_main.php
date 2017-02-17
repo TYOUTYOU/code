@@ -7,8 +7,6 @@ $db = getDb();
 
 //smartyの呼び出し
 require_once( 'hw3_common.php' );
-$smarty =& getSmartyObj();
-$smarty->template_dir = "C:/xampp/htdocs/var/www/smarty/templates";
 
 //エンコード
 require_once 'Encode.php';
@@ -42,7 +40,7 @@ if(!empty($_POST['sub']) && $con !== '') {
             $ins->bindValue(':user_id',$_SESSION['id'] );
             $ins->execute();
 
-            //投稿成功したかどうかのチェック
+            //投稿成功したかどうかのチェックと表示
             $s_id = intval($_SESSION['id']);
             $sel=$db->prepare("SELECT id FROM post WHERE user_id=$s_id AND contents=$con");
             $sel->execute();
@@ -60,6 +58,7 @@ if(!empty($_POST['sub']) && $con !== '') {
 
 //投稿変更機能
 if(!empty($_POST['cha']) && $id !=='' && $con !== '') {
+    //半角英数字であるかどうかのチェック
     if (preg_match("/^[a-zA-Z0-9]+$/", $id)) {
         $sel = $db->prepare("SELECT user_id FROM post WHERE id = $id");
         $sel->execute();
@@ -74,7 +73,7 @@ if(!empty($_POST['cha']) && $id !=='' && $con !== '') {
             $cha_result = $cha->fetch();
             $db_con = $cha_result['contents'];
 
-            //変更したかどうかのチェック
+            //変更成功かどうかのチェックと表示
             if ($db_con !== '') {
                 $main_m3 = 1;
                 $params = array('main_m3' => $main_m3);
@@ -95,6 +94,7 @@ if(!empty($_POST['cha']) && $id !=='' && $con !== '') {
 
 //投稿削除機能
 if(!empty($_POST['del']) && $id !== '') {
+    //半角英数字であるかどうかのチェック
     if (preg_match("/^[a-zA-Z0-9]+$/", $id)) {
         $sel = $db->prepare("SELECT user_id FROM post WHERE id = $id");
         $sel->execute();
@@ -106,7 +106,7 @@ if(!empty($_POST['del']) && $id !== '') {
             $del = $db->prepare("DELETE FROM post WHERE id = ?");
             $del->execute(array($id));
 
-            //削除したかどうかのチェック
+            //削除成功かどうかのチェックと表示
             $sel = $db->prepare("SELECT id FROM post WHERE id=$id");
             $sel->execute();
             $sel_result = $sel->fetch();
@@ -141,7 +141,6 @@ try{
 }
 
 $smarty->assign('params', $params);
-//テンプレートに出力
 $smarty->display('hw3_main.tpl');
 
 //ログアウトボタンを押したら、ログアウト画面に移行

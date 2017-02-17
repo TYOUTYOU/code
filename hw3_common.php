@@ -1,21 +1,11 @@
 <?php
-ini_set( 'display_errors', 1 );
-define('SMARTY_DIR', 'C:/smarty/libs/');
-require_once(SMARTY_DIR . "Smarty.class.php");
+require_once(dirname( __FILE__ )."/libs/Smarty.class.php");
 
-// Smartyオブジェクト取得
-function & getSmartyObj()
-{
-    static $smarty = null;
+$smarty = new Smarty();
 
-    if( is_null( $smarty ) ){
-        $smarty = new Smarty();
-        $smarty->template_dir = 'C:/xampp/htdocs/var/www/smarty/templates/';
-        $smarty->compile_dir  = 'C:/xampp/htdocs/var/www/smarty/templates_c/';
-        $smarty->config_dir   = 'C:/xampp/htdocs/var/www/smarty/configs/';
-        $smarty->cache_dir    = 'C:/xampp/htdocs/var/www/smarty/cache/';
-    }
+$smarty->template_dir = dirname( __FILE__ ).'/templates/';
+$smarty->compile_dir  = dirname( __FILE__ ).'/templates_c/';
+$smarty->config_dir   = dirname( __FILE__ ).'/configs/';
+$smarty->cache_dir    = dirname( __FILE__ ).'/cache/';
 
-    return $smarty;
-}
 ?>

@@ -6,9 +6,7 @@ require_once 'hw3_dbm.php';
 $db = getdb();
 
 //smartyの呼び出し
-require_once( 'hw3_common.php' );
-$smarty =& getSmartyObj();
-$smarty->template_dir = "C:/xampp/htdocs/var/www/smarty/templates";
+require_once'hw3_common.php';
 
 //エンコード
 require_once 'Encode.php';
@@ -26,8 +24,8 @@ $reg= isset($_POST['reg'])? htmlspecialchars($_POST['reg']) : null;;
     );
 
 //ログイン機能
-//半角英数字であるかどうかのチェック
     if (!empty($log) && $name !== '' && $password !== '') {
+        //半角英数字であるかどうかのチェック
         if(preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/",$password)){
         $db = getdb();
         $sel_id = $db->prepare("SELECT id FROM member WHERE name =?  AND password = ?");
@@ -55,20 +53,22 @@ $reg= isset($_POST['reg'])? htmlspecialchars($_POST['reg']) : null;;
 
 //登録機能
 if (!empty($_POST['reg']) && $name !== '' && $password !== '') {
+    //半角英数字であるかどうかのチェック
     if(preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/",$password)) {
+
         $sel_name = $db->prepare("SELECT name FROM member WHERE name =? ");
         $sel_name->bindValue(1, $name);
         $sel_name->execute();
         $result_n1 = $sel_name->fetch();
         $db_name1 = $result_n1['name'];
 
+        //入力したユーザー名がすでに登録されたかどうかのチェック
         if ($name === $db_name1) {
             $err2 = 1;
             $params = array('err2' => $err2);
 
         } else {
-            require_once 'hw3_dbm.php';
-            $db = getdb();
+
             $ins = $db->prepare('INSERT INTO member(name,password)VALUES(:name,:password)');//データベースにデータを入れる
             $ins->bindValue(':name', $name);
             $ins->bindValue(':password', $password);
@@ -76,7 +76,7 @@ if (!empty($_POST['reg']) && $name !== '' && $password !== '') {
             $result_n2 = $ins->fetch();
             $db_name2 = $result_n2['name'];
 
-            //登録したかどうかのチェック
+            //登録成功かどうかのチェックと表示
             if ($db_name2 !== '') {
                 $m1 = 1;
                 $params = array('m1' => $m1);
@@ -93,7 +93,6 @@ if (!empty($_POST['reg']) && $name !== '' && $password !== '') {
 
 
 $smarty->assign('params', $params);
-//テンプレートに出力
 $smarty->display('hw3_login.tpl');
 
 ?>
