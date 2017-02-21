@@ -90,7 +90,7 @@ if (!empty($_POST['reg']) && $name !== '' && $password !== '') {
     }
 }
 
-
+$smarty->assign('pa', $pa);
 $smarty->assign('params', $params);
 $smarty->display('hw3_login.tpl');
 
