@@ -23,13 +23,15 @@ $sub = isset($_POST['sub'])? htmlspecialchars($_POST['sub']) : null;;
 $cha= isset($_POST['cha'])? htmlspecialchars($_POST['cha']) : null;;
 $del= isset($_POST['del'])? htmlspecialchars($_POST['del']) : null;;
 
-$params = array(
+$pa = array(
     'id'=>$id,
     'con' => $con,
     'sub' => $sub,
     'cha' => $cha,
-    'del' => $del
+    'del' => $del,
+    'name' => $_SESSION['name']
 );
+$params='';
 
 //投稿機能
 if(!empty($_POST['sub']) && $con !== '') {
@@ -129,6 +131,7 @@ if(!empty($_POST['del']) && $id !== '') {
             $params = array('num_m' => $num_m);
         }
     }
+
 //投稿内容の表示
 try{
     $stt = $db->prepare('select post.id, member.name, post.contents from post, member where post.user_id = member.id order by post.id desc');
@@ -140,6 +143,8 @@ try{
     die("エラーメッセージ: {$e->getMessage()}");
 }
 
+
+$smarty->assign('pa', $pa);
 $smarty->assign('params', $params);
 $smarty->display('hw3_main.tpl');
 

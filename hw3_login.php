@@ -16,21 +16,20 @@ $password = isset($_POST['password'])? htmlspecialchars($_POST['password']) : nu
 $log = isset($_POST['log'])? htmlspecialchars($_POST['log']) : null;;
 $reg= isset($_POST['reg'])? htmlspecialchars($_POST['reg']) : null;;
 
-    $params = array(
+    $pa = array(
         'name' => $name,
         'password' => $password,
         'log' => $log,
         'reg' => $reg,
     );
+    $params ='';
 
 //ログイン機能
     if (!empty($log) && $name !== '' && $password !== '') {
         //半角英数字であるかどうかのチェック
         if(preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/",$password)){
         $db = getdb();
-        $sel_id = $db->prepare("SELECT id FROM member WHERE name =?  AND password = ?");
-        $sel_id->bindValue(1, $name);
-        $sel_id->bindValue(2, $password);
+        $sel_id = $db->prepare("SELECT id FROM member WHERE name =$name  AND password = $password");
         $sel_id->execute();
         $result = $sel_id->fetch();
         $db_id = $result['id'];

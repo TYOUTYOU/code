@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-02-17 11:21:26
+/* Smarty version 3.1.30, created on 2017-02-21 10:19:16
   from "C:\xampp\htdocs\templates\hw3_main.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58a6cea6931f44_32243446',
+  'unifunc' => 'content_58ac0614daca15_57237976',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e14f0c7f14a9a608c04213e99f90dff87ba4834c' => 
     array (
       0 => 'C:\\xampp\\htdocs\\templates\\hw3_main.tpl',
-      1 => 1487161412,
+      1 => 1487668755,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58a6cea6931f44_32243446 (Smarty_Internal_Template $_smarty_tpl) {
+function content_58ac0614daca15_57237976 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 
 <head>
@@ -30,7 +30,8 @@ function content_58a6cea6931f44_32243446 (Smarty_Internal_Template $_smarty_tpl)
 
     <hr>
 <form method="POST" action="hw3_main.php">
-        ようこそ<?php echo '<?php ';?>echo htmlspecialchars($_SESSION['NA'],ENT_QUOTES); <?php echo '?>';?>さん<input type="submit" name="logout" value="ログアウト"><br><br>
+        ようこそ<?php echo $_smarty_tpl->tpl_vars['pa']->value['name'];?>
+さん<input type="submit" name="logout" value="ログアウト"><br><br>
 
         掲示板の利用方法：<br>
         投稿方法：本文の空欄に内容を入れて、投稿ボタンを押してください。<br>
@@ -48,7 +49,7 @@ function content_58a6cea6931f44_32243446 (Smarty_Internal_Template $_smarty_tpl)
 </form>
 
 
-<?php if (!empty($_smarty_tpl->tpl_vars['params']->value['sub']) && $_smarty_tpl->tpl_vars['params']->value['con'] === '') {?>
+<?php if (!empty($_smarty_tpl->tpl_vars['pa']->value['sub']) && $_smarty_tpl->tpl_vars['pa']->value['con'] === '') {?>
     <p>本文を入力してください。</p>
 <?php }?>
 
@@ -62,11 +63,11 @@ if (isset($_smarty_tpl->tpl_vars['params']->value['main_m2'])) {?>
 
 
 
-<?php if (!empty($_smarty_tpl->tpl_vars['params']->value['cha']) && $_smarty_tpl->tpl_vars['params']->value['id'] === '' && $_smarty_tpl->tpl_vars['params']->value['con'] === '') {?>
+<?php if (!empty($_smarty_tpl->tpl_vars['pa']->value['cha']) && $_smarty_tpl->tpl_vars['pa']->value['id'] === '' && $_smarty_tpl->tpl_vars['pa']->value['con'] === '') {?>
     <p>投稿IDと新しい内容を入れてください。</p>
-<?php } elseif (!empty($_smarty_tpl->tpl_vars['params']->value['cha']) && $_smarty_tpl->tpl_vars['params']->value['id'] !== '' && $_smarty_tpl->tpl_vars['params']->value['con'] === '') {?>
+<?php } elseif (!empty($_smarty_tpl->tpl_vars['pa']->value['cha']) && $_smarty_tpl->tpl_vars['pa']->value['id'] !== '' && $_smarty_tpl->tpl_vars['pa']->value['con'] === '') {?>
     <p>新しい内容を入れてください。</p>
-<?php } elseif (!empty($_smarty_tpl->tpl_vars['params']->value['cha']) && $_smarty_tpl->tpl_vars['params']->value['id'] === '' && $_smarty_tpl->tpl_vars['params']->value['con'] !== '') {?>
+<?php } elseif (!empty($_smarty_tpl->tpl_vars['pa']->value['cha']) && $_smarty_tpl->tpl_vars['pa']->value['id'] === '' && $_smarty_tpl->tpl_vars['pa']->value['con'] !== '') {?>
     <p>投稿IDを入れてください。</p>"
 <?php }?>
 
@@ -84,7 +85,7 @@ if (isset($_smarty_tpl->tpl_vars['params']->value['main_m4'])) {?>
 
 
 
-<?php if (!empty($_smarty_tpl->tpl_vars['params']->value['del']) && $_smarty_tpl->tpl_vars['params']->value['id'] === '') {?>
+<?php if (!empty($_smarty_tpl->tpl_vars['pa']->value['del']) && $_smarty_tpl->tpl_vars['pa']->value['id'] === '') {?>
 <p>投稿IDを入れてください。</p>
 <?php }?>
 

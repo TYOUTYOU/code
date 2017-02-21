@@ -6,7 +6,7 @@
 
     <hr>
 <form method="POST" action="hw3_main.php">
-        ようこそ<?php echo htmlspecialchars($_SESSION['NA'],ENT_QUOTES); ?>さん<input type="submit" name="logout" value="ログアウト"><br><br>
+        ようこそ{$pa['name']}さん<input type="submit" name="logout" value="ログアウト"><br><br>
 
         掲示板の利用方法：<br>
         投稿方法：本文の空欄に内容を入れて、投稿ボタンを押してください。<br>
@@ -24,7 +24,7 @@
 </form>
 
 {*投稿する際の入力チェック*}
-{if  !empty($params.sub) && $params.con === '' }
+{if  !empty($pa.sub) && $pa.con === '' }
     <p>本文を入力してください。</p>
 {/if}
 {*投稿成功と失敗の表示*}
@@ -38,11 +38,11 @@
 
 
 {*変更する際の入力チェック*}
-{if !empty($params.cha) && $params.id === '' && $params.con === ''}
+{if !empty($pa.cha) && $pa.id === '' && $pa.con === ''}
     <p>投稿IDと新しい内容を入れてください。</p>
-{elseif  !empty($params.cha) && $params.id !== '' && $params.con ==='' }
+{elseif  !empty($pa.cha) && $pa.id !== '' && $pa.con ==='' }
     <p>新しい内容を入れてください。</p>
-{elseif !empty($params.cha) && $params.id === '' && $params.con !== ''}
+{elseif !empty($pa.cha) && $pa.id === '' && $pa.con !== ''}
     <p>投稿IDを入れてください。</p>"
 {/if}
 {*変更成功と失敗の表示*}
@@ -60,7 +60,7 @@
 
 
 {*削除する際の入力チェック*}
-{if !empty($params.del) && $params.id === ''}
+{if !empty($pa.del) && $pa.id === ''}
 <p>投稿IDを入れてください。</p>
 {/if}
 {*削除成功と失敗の表示*}

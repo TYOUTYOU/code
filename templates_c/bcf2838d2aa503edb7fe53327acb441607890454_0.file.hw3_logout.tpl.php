@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-02-17 11:21:49
+/* Smarty version 3.1.30, created on 2017-02-21 10:09:16
   from "C:\xampp\htdocs\templates\hw3_logout.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58a6cebd1efbd8_50409489',
+  'unifunc' => 'content_58ac03bc67c1f5_79514237',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58a6cebd1efbd8_50409489 (Smarty_Internal_Template $_smarty_tpl) {
+function content_58ac03bc67c1f5_79514237 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <head>
     <title>ログアウト</title>
