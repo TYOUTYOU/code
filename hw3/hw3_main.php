@@ -143,16 +143,16 @@ try{
     die("エラーメッセージ: {$e->getMessage()}");
 }
 
-
-$smarty->assign('pa', $pa);
-$smarty->assign('params', $params);
-$smarty->display('hw3_main.tpl');
-
 //ログアウトボタンを押したら、ログアウト画面に移行
 if(isset($_POST["logout"])){
     header("Location:hw3_logout.php");
 }else{
     //何もしない
 }
+
+
+$smarty->assign('pa', $pa);
+$smarty->assign('params', $params);
+$smarty->display('hw3_main.tpl');
 
 ?>
