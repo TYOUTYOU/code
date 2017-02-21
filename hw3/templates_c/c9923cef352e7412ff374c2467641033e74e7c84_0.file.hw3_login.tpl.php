@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-02-21 10:09:17
+/* Smarty version 3.1.30, created on 2017-02-21 10:43:33
   from "C:\xampp\htdocs\templates\hw3_login.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58ac03bd906651_97729243',
+  'unifunc' => 'content_58ac0bc56617f3_50590150',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c9923cef352e7412ff374c2467641033e74e7c84' => 
     array (
       0 => 'C:\\xampp\\htdocs\\templates\\hw3_login.tpl',
-      1 => 1487158594,
+      1 => 1487670206,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58ac03bd906651_97729243 (Smarty_Internal_Template $_smarty_tpl) {
+function content_58ac0bc56617f3_50590150 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 
 <head>
@@ -37,20 +37,20 @@ function content_58ac03bd906651_97729243 (Smarty_Internal_Template $_smarty_tpl)
 </form>
 
     
-    <?php if (!empty($_smarty_tpl->tpl_vars['params']->value['log']) && $_smarty_tpl->tpl_vars['params']->value['name'] === '' && $_smarty_tpl->tpl_vars['params']->value['password'] === '') {?>
+    <?php if (!empty($_smarty_tpl->tpl_vars['pa']->value['log']) && $_smarty_tpl->tpl_vars['pa']->value['name'] === '' && $_smarty_tpl->tpl_vars['pa']->value['password'] === '') {?>
         <p>ユーザー名とパスワードを入力してください。</p>
-    <?php } elseif (!empty($_smarty_tpl->tpl_vars['params']->value['log']) && $_smarty_tpl->tpl_vars['params']->value['name'] === '' && $_smarty_tpl->tpl_vars['params']->value['password'] !== '') {?>
+    <?php } elseif (!empty($_smarty_tpl->tpl_vars['pa']->value['log']) && $_smarty_tpl->tpl_vars['pa']->value['name'] === '' && $_smarty_tpl->tpl_vars['pa']->value['password'] !== '') {?>
         <p>ユーザー名を入力してください。</p>
-    <?php } elseif (!empty($_smarty_tpl->tpl_vars['params']->value['log']) && $_smarty_tpl->tpl_vars['params']->value['name'] !== '' && $_smarty_tpl->tpl_vars['params']->value['password'] === '') {?>
+    <?php } elseif (!empty($_smarty_tpl->tpl_vars['pa']->value['log']) && $_smarty_tpl->tpl_vars['pa']->value['name'] !== '' && $_smarty_tpl->tpl_vars['pa']->value['password'] === '') {?>
         <p>パスワードを入力してください。</p>
     <?php }?>
 
     
-    <?php if (!empty($_smarty_tpl->tpl_vars['params']->value['reg']) && $_smarty_tpl->tpl_vars['params']->value['name'] === '' && $_smarty_tpl->tpl_vars['params']->value['password'] === '') {?>
+    <?php if (!empty($_smarty_tpl->tpl_vars['pa']->value['reg']) && $_smarty_tpl->tpl_vars['pa']->value['name'] === '' && $_smarty_tpl->tpl_vars['pa']->value['password'] === '') {?>
         <p>ユーザー名とパスワードを入力してください。</p>
-    <?php } elseif (!empty($_smarty_tpl->tpl_vars['params']->value['reg']) && $_smarty_tpl->tpl_vars['params']->value['name'] === '' && $_smarty_tpl->tpl_vars['params']->value['password'] !== '') {?>
+    <?php } elseif (!empty($_smarty_tpl->tpl_vars['pa']->value['reg']) && $_smarty_tpl->tpl_vars['pa']->value['name'] === '' && $_smarty_tpl->tpl_vars['pa']->value['password'] !== '') {?>
         <p>ユーザー名を入力してください。</p>
-    <?php } elseif (!empty($_smarty_tpl->tpl_vars['params']->value['reg']) && $_smarty_tpl->tpl_vars['params']->value['name'] !== '' && $_smarty_tpl->tpl_vars['params']->value['password'] === '') {?>
+    <?php } elseif (!empty($_smarty_tpl->tpl_vars['pa']->value['reg']) && $_smarty_tpl->tpl_vars['pa']->value['name'] !== '' && $_smarty_tpl->tpl_vars['pa']->value['password'] === '') {?>
         <p>パスワードを入力してください。</p>
     <?php }?>
 

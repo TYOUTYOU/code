@@ -13,20 +13,20 @@
 </form>
 
     {*ログインボタンを押した際の入力チェック*}
-    {if !empty($params.log) && $params.name === '' && $params.password === ''}
+    {if !empty($pa.log) && $pa.name === '' && $pa.password === ''}
         <p>ユーザー名とパスワードを入力してください。</p>
-    {elseif !empty($params.log) && $params.name ==='' && $params.password !== ''}
+    {elseif !empty($pa.log) && $pa.name ==='' && $pa.password !== ''}
         <p>ユーザー名を入力してください。</p>
-    {elseif !empty($params.log) && $params.name !=='' && $params.password === ''}
+    {elseif !empty($pa.log) && $pa.name !=='' && $pa.password === ''}
         <p>パスワードを入力してください。</p>
     {/if}
 
     {*登録ボタンを押した際の入力チェック*}
-    {if !empty($params.reg) && $params.name === '' && $params.password === ''}
+    {if !empty($pa.reg) && $pa.name === '' && $pa.password === ''}
         <p>ユーザー名とパスワードを入力してください。</p>
-    {elseif !empty($params.reg) && $params.name ==='' && $params.password !== ''}
+    {elseif !empty($pa.reg) && $pa.name ==='' && $pa.password !== ''}
         <p>ユーザー名を入力してください。</p>
-    {elseif !empty($params.reg) && $params.name !=='' && $params.password === ''}
+    {elseif !empty($pa.reg) && $pa.name !=='' && $pa.password === ''}
         <p>パスワードを入力してください。</p>
     {/if}
 
