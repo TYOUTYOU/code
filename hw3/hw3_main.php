@@ -70,7 +70,7 @@ if(!empty($_POST['cha']) && $id !=='' && $con !== '') {
         //入力した投稿IDが対応する投稿は本人の投稿であるかどうかをチェック
         if ($_SESSION['id'] === $db_user_id) {
             //入力した内容をデータベース内で更新する
-            $cha = $db->query("UPDATE post SET contents= '". $con."' WHERE id=$id");
+            $cha = $db->query("UPDATE post SET contents='".$con."' WHERE id=$id");
             $cha->execute();
             $cha_result = $cha->fetch();
             $db_con = $cha_result['contents'];
@@ -150,9 +150,7 @@ if(isset($_POST["logout"])){
     //何もしない
 }
 
-
 $smarty->assign('pa', $pa);
 $smarty->assign('params', $params);
 $smarty->display('hw3_main.tpl');
-
 ?>
