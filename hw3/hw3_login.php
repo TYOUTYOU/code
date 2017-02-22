@@ -29,7 +29,7 @@ $reg= isset($_POST['reg'])? htmlspecialchars($_POST['reg']) : null;;
         //半角英数字であるかどうかのチェック
         if(preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/",$password)){
         $db = getdb();
-        $sel_id = $db->prepare("SELECT id FROM member WHERE name =$name  AND password = $password");
+        $sel_id = $db->prepare("SELECT id FROM member WHERE name =$name  AND password = '".$password."'");
         $sel_id->execute();
         $result = $sel_id->fetch();
         $db_id = $result['id'];
