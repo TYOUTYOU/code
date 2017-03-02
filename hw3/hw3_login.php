@@ -29,9 +29,9 @@ $register= isset($_POST['register'])? $_POST['register']: null;
         if (preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/", $password)) {
             try{
                 $db = getdb();
-                $select_id = $db->prepare("SELECT id FROM member WHERE name ='" . $name . "'  AND password = '" . $password . "'");
-                $select_id->bindValue(1,$name);
-                $select_id->bindValue(2,$password);
+                $select_id = $db->prepare("SELECT id FROM member WHERE name = :name AND password = :password");
+                $select_id->bindValue(':name',$name);
+                $select_id->bindValue(':password',$password);
                 $select_id->execute();
                 $result = $select_id->fetch();
                 $db_id = $result['id'];
@@ -60,8 +60,8 @@ $register= isset($_POST['register'])? $_POST['register']: null;
         if (preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/", $password)) {
             try{
                 $db = getdb();
-                $select_name = $db->prepare("SELECT name FROM member WHERE name =? ");
-                $select_name->bindValue(1, $name);
+                $select_name = $db->prepare("SELECT name FROM member WHERE name = :name ");
+                $select_name->bindValue(':name', $name);
                 $select_name->execute();
                 $result_name1 = $select_name->fetch();
                 $db_name1 = $result_name1['name'];

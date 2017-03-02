@@ -49,9 +49,9 @@ if(!empty($_POST['submit']) && $contents !== '') {
     try {
         $db = getdb();
         $session_id = intval($_SESSION['id']);
-        $select = $db->prepare("SELECT id FROM post WHERE user_id=$session_id AND contents=$contents");
-        $select->bindValue(1,$session_id);
-        $select->bindValue(2,$contents);
+        $select = $db->prepare("SELECT id FROM post WHERE user_id = :session_id AND contents = :contents");
+        $select->bindValue(':session_id',$session_id);
+        $select->bindValue(':contents',$contents);
         $select->execute();
         $select_result = $select->fetch();
         $db_id = $select_result['id'];
@@ -76,8 +76,8 @@ if(!empty($_POST['change']) && $id !=='' && $contents !== '') {
        if (preg_match("/^[a-zA-Z0-9]+$/", $id)) {
            try {
                $db = getdb();
-               $select = $db->prepare("SELECT user_id FROM post WHERE id = $id");
-               $select->bindValue(1,$id);
+               $select = $db->prepare("SELECT user_id FROM post WHERE id = :id");
+               $select->bindValue(':id',$id);
                $select->execute();
                $select_result = $select->fetch();
                $db_user_id = $select_result['user_id'];
@@ -89,9 +89,9 @@ if(!empty($_POST['change']) && $id !=='' && $contents !== '') {
                //入力した内容をデータベース内で更新する
                try{
                    $db = getdb();
-                   $update = $db->query("UPDATE post SET contents='" . $contents . "' WHERE id=$id");
-                   $update->bindValue(1,$contents);
-                   $update->bindValue(2,$id);
+                   $update = $db->prepare("UPDATE post SET contents = :contents WHERE id = :id");
+                   $update->bindValue(':contents',$contents);
+                   $update->bindValue(':id',$id);
                    $update->execute();
                    $update_result = $update->fetch();
                    $db_contents = $update_result['contents'];
@@ -109,7 +109,7 @@ if(!empty($_POST['change']) && $id !=='' && $contents !== '') {
 
            } elseif ($_SESSION["id"] !== $db_user_id) {
                $main_message5 = 1;
-               $params2 = array('main_m5' => $main_message5);
+               $params2 = array('main_message5' => $main_message5);
            }
        } else {
            $num_message = 1;
@@ -123,8 +123,8 @@ if(!empty($_POST['delete']) && $id !== '') {
     if (preg_match("/^[a-zA-Z0-9]+$/", $id)) {
         try{
             $db = getdb();
-        $select = $db->prepare("SELECT user_id FROM post WHERE id = $id");
-        $select->bindValue(1,$id);
+        $select = $db->prepare("SELECT user_id FROM post WHERE id = :id");
+        $select->bindValue(':id',$id);
         $select->execute();
         $select_result = $select->fetch();
         $db_user_id = $select_result['user_id'];
@@ -135,8 +135,9 @@ if(!empty($_POST['delete']) && $id !== '') {
         if ($_SESSION['id'] === $db_user_id) {//入力した投稿IDが対応する投稿は本人の投稿であるかどうかをチェック
             try{
                 $db = getdb();
-                $DEL = $db->prepare("DELETE FROM post WHERE id = ?");
-                $DEL->execute(array($id));
+                $DEL = $db->prepare("DELETE FROM post WHERE id = :id");
+                $DEL->bindValue(':id',$id);
+                $DEL->execute();
             }catch (PDOException $e) {
                 die("エラーメッセージ: {$e->getMessage()}");
             }
@@ -144,8 +145,8 @@ if(!empty($_POST['delete']) && $id !== '') {
             //削除成功かどうかのチェックと表示
             try{
                 $db = getdb();
-                $select = $db->prepare("SELECT id FROM post WHERE id=$id");
-                $select->bindValue(1,$id);
+                $select = $db->prepare("SELECT id FROM post WHERE id = :id");
+                $select->bindValue(':id',$id);
                 $select->execute();
                 $select_result = $select->fetch();
                 $db_id = $select_result['id'];
