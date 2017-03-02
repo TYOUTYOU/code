@@ -13,44 +13,44 @@
 </form>
 
     {*ログインボタンを押した際の入力チェック*}
-    {if !empty($pa.login) && $pa.name === '' && $pa.password === ''}
+    {if !empty($params1.login) && $params1.name === '' && $params1.password === ''}
         <p>ユーザー名とパスワードを入力してください。</p>
-    {elseif !empty($pa.login) && $pa.name ==='' && $pa.password !== ''}
+    {elseif !empty($params1.login) && $params1.name ==='' && $params1.password !== ''}
         <p>ユーザー名を入力してください。</p>
-    {elseif !empty($pa.login) && $pa.name !=='' && $pa.password === ''}
+    {elseif !empty($params1.login) && $params1.name !=='' && $params1.password === ''}
         <p>パスワードを入力してください。</p>
     {/if}
 
     {*登録ボタンを押した際の入力チェック*}
-    {if !empty($pa.register) && $pa.name === '' && $pa.password === ''}
+    {if !empty($params1.register) && $params1.name === '' && $params1.password === ''}
         <p>ユーザー名とパスワードを入力してください。</p>
-    {elseif !empty($pa.register) && $pa.name ==='' && $pa.password !== ''}
+    {elseif !empty($params1.register) && $params1.name ==='' && $params1.password !== ''}
         <p>ユーザー名を入力してください。</p>
-    {elseif !empty($pa.register) && $pa.name !=='' && $pa.password === ''}
+    {elseif !empty($params1.register) && $params1.name !=='' && $params1.password === ''}
         <p>パスワードを入力してください。</p>
     {/if}
 
 　　{*認証失敗の時のエラー表示*}
-    {if isset($params.error1)}
+    {if isset($params2.error1)}
         <p>ユーザー名とパスワードが間違っています。</p>
     {/if}
 
 {*入力したユーザー名がすでに登録された時のエラー表示*}
-    {if isset($params.error2)}
+    {if isset($params2.error2)}
           <p>このユーザー名はすでに登録されています。ほかのユーザー名にしてください。</p>
     {/if}
 
 {*入力したユーザー名がすでに登録された時のエラー表示*}
-{if isset($params.message1)}
+{if isset($params2.message1)}
     <p>登録しました。もう一度ログインしてください。</p>
 {/if}
 
-{if isset($params.message2)}
+{if isset($params2.message2)}
     <p>登録失敗しました。</p>
 {/if}
 
 
 {*半角英数字であるかどうかのチェック*}
-{if isset($params.num_message)}
+{if isset($params2.num_message)}
     <p>半角英数を入力してください</p>
 {/if}

@@ -6,7 +6,7 @@
 
     <hr>
 <form method="POST" action="hw3_main.php">
-        ようこそ{$pa['name']}さん<input type="submit" name="logout" value="ログアウト"><br><br>
+        ようこそ{$params1['name']}さん<input type="submit" name="logout" value="ログアウト"><br><br>
 
         掲示板の利用方法：<br>
         投稿方法：本文の空欄に内容を入れて、投稿ボタンを押してください。<br>
@@ -24,59 +24,59 @@
 </form>
 
 {*投稿する際の入力チェック*}
-{if  !empty($pa.submit) && $pa.contents === '' }
+{if  !empty($params1.submit) && $params1.contents === '' }
     <p>本文を入力してください。</p>
 {/if}
 {*投稿成功と失敗の表示*}
-{if isset($params.main_message1)}
+{if isset($params2.main_message1)}
     <p>投稿しました。</p>
 {/if}
-{if isset($params.main_message2)}
+{if isset($params2.main_message2)}
     <p>投稿失敗。</p>
 {/if}
 
 
 
 {*変更する際の入力チェック*}
-{if !empty($pa.change) && $pa.id === '' && $pa.contents === ''}
+{if !empty($params1.change) && $params1.id === '' && $params1.contents === ''}
     <p>投稿IDと新しい内容を入れてください。</p>
-{elseif  !empty($pa.change) && $pa.id !== '' && $pa.contents ==='' }
+{elseif  !empty($params1.change) && $params1.id !== '' && $params1.contents ==='' }
     <p>新しい内容を入れてください。</p>
-{elseif !empty($pa.change) && $pa.id === '' && $pa.contents !== ''}
+{elseif !empty($params1.change) && $params1.id === '' && $params1.contents !== ''}
     <p>投稿IDを入れてください。</p>"
 {/if}
 {*変更成功と失敗の表示*}
-{if isset($params.main_message3)}
+{if isset($params2.main_message3)}
     <p>変更しました。</p>
 {/if}
-{if isset($params.main_message4)}
+{if isset($params2.main_message4)}
     <p>変更失敗。</p>
 {/if}
 {*変更する際入力した投稿IDが他人のIDである場合のエラー表示*}
-{if isset($params.main_message5)}
+{if isset($params2.main_message5)}
     <p>入力した投稿IDは他人の投稿です。注意事項をもう一度読んでください。</p>
 {/if}
 
 
 
 {*削除する際の入力チェック*}
-{if !empty($pa.delete) && $pa.id === ''}
+{if !empty($params1.delete) && $params1.id === ''}
 <p>投稿IDを入れてください。</p>
 {/if}
 {*削除成功と失敗の表示*}
-{if isset($params.main_message6)}
+{if isset($params2.main_message6)}
     <p>削除しました。</p>
 {/if}
-{if isset($params.main_message7)}
+{if isset($params2.main_message7)}
     <p>削除失敗。</p>
 {/if}
 {*削除する際入力した投稿IDが他人のIDである場合のエラー表示*}
-{if isset($params.main_message8)}
+{if isset($params2.main_message8)}
     <p>入力した投稿IDは他人の投稿です。注意事項をもう一度読んでください。</p>
 {/if}
 
 {*半角英数字であるかどうかのチェック*}
-{if isset($params.num_message)}
+{if isset($params2.num_message)}
     <p>投稿IDの空欄に半角英数を入力してください</p>
 {/if}
 

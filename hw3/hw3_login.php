@@ -14,13 +14,13 @@ $password = isset($_POST['password'])? $_POST['password'] : null;
 $login = isset($_POST['login'])? $_POST['login'] : null;
 $register= isset($_POST['register'])? $_POST['register']: null;
 
-    $pa = array(
+    $params1 = array(
         'name' => $name,
         'password' => $password,
         'login' => $login,
         'register' => $register,
     );
-    $params = '';
+    $params2 = '';
 
 
 //ログイン機能
@@ -38,7 +38,7 @@ $register= isset($_POST['register'])? $_POST['register']: null;
 
                 if ($db_id === NULL) {
                     $error1 = 1;
-                    $params = array('error1' => $error1);
+                    $params2 = array('error1' => $error1);
                 } else {
                     $_SESSION['id'] = $result['id'];
                     $_SESSION['name'] = $name;
@@ -50,7 +50,7 @@ $register= isset($_POST['register'])? $_POST['register']: null;
             }
         } else {
             $num_message = 1;
-            $params = array('num_message' => $num_message);
+            $params2 = array('num_message' => $num_message);
         }
     }
 
@@ -71,7 +71,7 @@ $register= isset($_POST['register'])? $_POST['register']: null;
             //入力したユーザー名がすでに登録されたかどうかのチェック
             if ("$name" === "$db_name1") {
                 $error2 = 1;
-                $params = array('error2' => $error2);
+                $params2 = array('error2' => $error2);
 
             } else {
                 try{
@@ -89,20 +89,20 @@ $register= isset($_POST['register'])? $_POST['register']: null;
                 //登録成功かどうかのチェックと表示
                 if ($db_name2 !== '') {
                     $message1 = 1;
-                    $params = array('message1' => $message1);
+                    $params2 = array('message1' => $message1);
                 } else {
                     $message2 = 1;
-                    $params = array('message2' => $message2);
+                    $params2 = array('message2' => $message2);
                 }
             }
         } else {
-            $num_m = 1;
-            $params = array('num_message' => $num_message);
+            $num_message = 1;
+            $params2 = array('num_message' => $num_message);
         }
     }
 
-    $smarty->assign('pa', $pa);
-    $smarty->assign('params', $params);
+    $smarty->assign('params1', $params1);
+    $smarty->assign('params2', $params2);
     $smarty->display('hw3_login.tpl');
 
 ?>

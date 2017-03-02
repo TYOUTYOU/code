@@ -21,7 +21,7 @@ $submit = isset($_POST['submit'])? $_POST['submit'] : null;
 $change= isset($_POST['change'])? $_POST['change']: null;
 $delete= isset($_POST['delete'])? $_POST['delete'] : null;
 
-$pa = array(
+$params1 = array(
     'id'=>$id,
     'contents' => $contents,
     'submit' => $submit,
@@ -29,7 +29,7 @@ $pa = array(
     'delete' => $delete,
     'name' => $_SESSION['name']
 );
-$params='';
+$params2='';
 
 //投稿機能
 if(!empty($_POST['submit']) && $contents !== '') {
@@ -62,10 +62,10 @@ if(!empty($_POST['submit']) && $contents !== '') {
 
     if ($db_id !== '') {
         $main_message1 = 1;
-        $params = array('main_message1' => $main_message1);
+        $params2 = array('main_message1' => $main_message1);
     } else {
         $main_message2 = 1;
-        $params = array('main_message2' => $main_message2);
+        $params2 = array('main_message2' => $main_message2);
     }
 }
 
@@ -101,19 +101,19 @@ if(!empty($_POST['change']) && $id !=='' && $contents !== '') {
                //変更成功かどうかのチェックと表示
                if ($db_contents !== '') {
                    $main_message3 = 1;
-                   $params = array('main_message3' => $main_message3);
+                   $params2 = array('main_message3' => $main_message3);
                } else {
                    $main_message4 = 1;
-                   $params = array('main_message4' => $main_message4);
+                   $params2 = array('main_message4' => $main_message4);
                }
 
            } elseif ($_SESSION["id"] !== $db_user_id) {
                $main_message5 = 1;
-               $params = array('main_m5' => $main_message5);
+               $params2 = array('main_m5' => $main_message5);
            }
        } else {
            $num_message = 1;
-           $params = array('num_message' => $num_message);
+           $params2 = array('num_message' => $num_message);
        }
 }
 
@@ -155,19 +155,19 @@ if(!empty($_POST['delete']) && $id !== '') {
 
             if ($db_id === NULL) {
                 $main_message6 = 1;
-                $params = array('main_message6' => $main_message6);
+                $params2 = array('main_message6' => $main_message6);
             } else {
                 $main_message7 = 1;
-                $params = array('main_message7' => $main_message7);
+                $params2 = array('main_message7' => $main_message7);
             }
 
         } elseif ($_SESSION['id'] !== $db_user_id) {
             $main_message5 = 1;
-            $params = array('main_message8' => $main_message5);
+            $params2 = array('main_message8' => $main_message5);
         }
     }else {
             $num_message = 1;
-            $params = array('num_message' => $num_message);
+            $params2 = array('num_message' => $num_message);
         }
     }
 
@@ -190,7 +190,7 @@ if(isset($_POST["logout"])){
     //何もしない
 }
 
-$smarty->assign('pa', $pa);
-$smarty->assign('params', $params);
+$smarty->assign('params1', $params1);
+$smarty->assign('params2', $params2);
 $smarty->display('hw3_main.tpl');
 ?>
