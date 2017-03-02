@@ -1,142 +1,182 @@
 <?php
 session_start();
 
-//データベース接続
-require_once 'hw3_dbm.php';
-$db = getDb();
+require_once ('./hw3_dbm.php');
 
 //smartyの呼び出し
-require_once( 'hw3_common.php' );
+require_once( './hw3_common.php');
 
 //エンコード
-require_once 'Encode.php';
+require_once ('./Encode.php');
 
 // ログイン状態チェック
 if (!isset($_SESSION["id"])) {
-    header("Location:hw3_logout.php");
+    header("Location: ./hw3_logout.php");
     exit;
 }
 
-$id = isset($_POST['id'])? htmlspecialchars($_POST['id']) : null;
-$con = isset($_POST['con'])? htmlspecialchars($_POST['con']) : null;
-$sub = isset($_POST['sub'])? htmlspecialchars($_POST['sub']) : null;;
-$cha= isset($_POST['cha'])? htmlspecialchars($_POST['cha']) : null;;
-$del= isset($_POST['del'])? htmlspecialchars($_POST['del']) : null;;
+$id = isset($_POST['id'])? $_POST['id']: null;
+$contents = isset($_POST['contents'])? $_POST['contents'] : null;
+$submit = isset($_POST['submit'])? $_POST['submit'] : null;
+$change= isset($_POST['change'])? $_POST['change']: null;
+$delete= isset($_POST['delete'])? $_POST['delete'] : null;
 
 $pa = array(
     'id'=>$id,
-    'con' => $con,
-    'sub' => $sub,
-    'cha' => $cha,
-    'del' => $del,
+    'contents' => $contents,
+    'submit' => $submit,
+    'change' => $change,
+    'delete' => $delete,
     'name' => $_SESSION['name']
 );
 $params='';
 
 //投稿機能
-if(!empty($_POST['sub']) && $con !== '') {
-            //投稿内容をデータベースに書き入れる
-            $id = $_SESSION['id'];
-            $ins = $db->prepare("INSERT INTO post(contents,user_id)VALUES(:con,:user_id)");//データベースにデータを入れる
-            $ins->bindValue(':con', $con);
-            $ins->bindValue(':user_id',$_SESSION['id'] );
-            $ins->execute();
+if(!empty($_POST['submit']) && $contents !== '') {
+    //投稿内容をデータベースに書き入れる
+    try {
+        $db = getdb();
+        $id = $_SESSION['id'];
+        $insert = $db->prepare("INSERT INTO post(contents,user_id)VALUES(:contents,:user_id)");//データベースにデータを入れる
+        $insert->bindValue(':contents', $contents);
+        $insert->bindValue(':user_id', $_SESSION['id']);
+        $insert->execute();
+    }catch (PDOException $e) {
+        die("エラーメッセージ: {$e->getMessage()}");
+    }
 
-            //投稿成功したかどうかのチェックと表示
-            $s_id = intval($_SESSION['id']);
-            $sel=$db->prepare("SELECT id FROM post WHERE user_id=$s_id AND contents=$con");
-            $sel->execute();
-            $sel_result = $sel->fetch();
-            $db_id = $sel_result['id'];
+    //投稿成功したかどうかのチェックと表示
+    try {
+        $db = getdb();
+        $session_id = intval($_SESSION['id']);
+        $select = $db->prepare("SELECT id FROM post WHERE user_id=$session_id AND contents=$contents");
+        $select->bindValue(1,$session_id);
+        $select->bindValue(2,$contents);
+        $select->execute();
+        $select_result = $select->fetch();
+        $db_id = $select_result['id'];
 
-            if($db_id !==''){
-            $main_m1= 1;
-            $params = array('main_m1' => $main_m1);
-            }else{
-            $main_m2= 1;
-            $params = array('main_m2' => $main_m2);
-            }
-}
+    }catch (PDOException $e) {
+        die("エラーメッセージ: {$e->getMessage()}");
+    }
 
-//投稿変更機能
-if(!empty($_POST['cha']) && $id !=='' && $con !== '') {
-    //半角英数字であるかどうかのチェック
-    if (preg_match("/^[a-zA-Z0-9]+$/", $id)) {
-        $sel = $db->prepare("SELECT user_id FROM post WHERE id = $id");
-        $sel->execute();
-        $sel_result = $sel->fetch();
-        $db_user_id = $sel_result['user_id'];
-
-        //入力した投稿IDが対応する投稿は本人の投稿であるかどうかをチェック
-        if ($_SESSION['id'] === $db_user_id) {
-            //入力した内容をデータベース内で更新する
-            $cha = $db->query("UPDATE post SET contents='".$con."' WHERE id=$id");
-            $cha->execute();
-            $cha_result = $cha->fetch();
-            $db_con = $cha_result['contents'];
-
-            //変更成功かどうかのチェックと表示
-            if ($db_con !== '') {
-                $main_m3 = 1;
-                $params = array('main_m3' => $main_m3);
-            } else {
-                $main_m4 = 1;
-                $params = array('main_m4' => $main_m4);
-            }
-
-        } elseif ($_SESSION["id"] !== $db_user_id) {
-            $main_m5 = 1;
-            $params = array('main_m5' => $main_m5);
-        }
+    if ($db_id !== '') {
+        $main_message1 = 1;
+        $params = array('main_message1' => $main_message1);
     } else {
-        $num_m = 1;
-        $params = array('num_m' => $num_m);
+        $main_message2 = 1;
+        $params = array('main_message2' => $main_message2);
     }
 }
 
+//投稿変更機能
+if(!empty($_POST['change']) && $id !=='' && $contents !== '') {
+    //半角英数字であるかどうかのチェック
+
+       if (preg_match("/^[a-zA-Z0-9]+$/", $id)) {
+           try {
+               $db = getdb();
+               $select = $db->prepare("SELECT user_id FROM post WHERE id = $id");
+               $select->bindValue(1,$id);
+               $select->execute();
+               $select_result = $select->fetch();
+               $db_user_id = $select_result['user_id'];
+           }catch (PDOException $e) {
+               die("エラーメッセージ: {$e->getMessage()}");
+           }
+           //入力した投稿IDが対応する投稿は本人の投稿であるかどうかをチェック
+           if ($_SESSION['id'] === $db_user_id) {
+               //入力した内容をデータベース内で更新する
+               try{
+                   $db = getdb();
+                   $update = $db->query("UPDATE post SET contents='" . $contents . "' WHERE id=$id");
+                   $update->bindValue(1,$contents);
+                   $update->bindValue(2,$id);
+                   $update->execute();
+                   $update_result = $update->fetch();
+                   $db_contents = $update_result['contents'];
+               }catch (PDOException $e) {
+                   die("エラーメッセージ: {$e->getMessage()}");
+               }
+               //変更成功かどうかのチェックと表示
+               if ($db_contents !== '') {
+                   $main_message3 = 1;
+                   $params = array('main_message3' => $main_message3);
+               } else {
+                   $main_message4 = 1;
+                   $params = array('main_message4' => $main_message4);
+               }
+
+           } elseif ($_SESSION["id"] !== $db_user_id) {
+               $main_message5 = 1;
+               $params = array('main_m5' => $main_message5);
+           }
+       } else {
+           $num_message = 1;
+           $params = array('num_message' => $num_message);
+       }
+}
+
 //投稿削除機能
-if(!empty($_POST['del']) && $id !== '') {
+if(!empty($_POST['delete']) && $id !== '') {
     //半角英数字であるかどうかのチェック
     if (preg_match("/^[a-zA-Z0-9]+$/", $id)) {
-        $sel = $db->prepare("SELECT user_id FROM post WHERE id = $id");
-        $sel->execute();
-        $sel_result = $sel->fetch();
-        $db_user_id = $sel_result['user_id'];
+        try{
+            $db = getdb();
+        $select = $db->prepare("SELECT user_id FROM post WHERE id = $id");
+        $select->bindValue(1,$id);
+        $select->execute();
+        $select_result = $select->fetch();
+        $db_user_id = $select_result['user_id'];
+        }catch (PDOException $e) {
+            die("エラーメッセージ: {$e->getMessage()}");
+        }
 
-        //入力した投稿IDが対応する投稿は本人の投稿であるかどうかをチェック
-        if ($_SESSION['id'] === $db_user_id) {
-            $del = $db->prepare("DELETE FROM post WHERE id = ?");
-            $del->execute(array($id));
+        if ($_SESSION['id'] === $db_user_id) {//入力した投稿IDが対応する投稿は本人の投稿であるかどうかをチェック
+            try{
+                $db = getdb();
+                $DEL = $db->prepare("DELETE FROM post WHERE id = ?");
+                $DEL->execute(array($id));
+            }catch (PDOException $e) {
+                die("エラーメッセージ: {$e->getMessage()}");
+            }
 
             //削除成功かどうかのチェックと表示
-            $sel = $db->prepare("SELECT id FROM post WHERE id=$id");
-            $sel->execute();
-            $sel_result = $sel->fetch();
-            $db_id = $sel_result['id'];
+            try{
+                $db = getdb();
+                $select = $db->prepare("SELECT id FROM post WHERE id=$id");
+                $select->bindValue(1,$id);
+                $select->execute();
+                $select_result = $select->fetch();
+                $db_id = $select_result['id'];
+            }catch (PDOException $e) {
+                die("エラーメッセージ: {$e->getMessage()}");
+            }
 
             if ($db_id === NULL) {
-                $main_m6 = 1;
-                $params = array('main_m6' => $main_m6);
+                $main_message6 = 1;
+                $params = array('main_message6' => $main_message6);
             } else {
-                $main_m7 = 1;
-                $params = array('main_m7' => $main_m7);
+                $main_message7 = 1;
+                $params = array('main_message7' => $main_message7);
             }
 
         } elseif ($_SESSION['id'] !== $db_user_id) {
-            $main_m5 = 1;
-            $params = array('main_m8' => $main_m5);
+            $main_message5 = 1;
+            $params = array('main_message8' => $main_message5);
         }
     }else {
-            $num_m = 1;
-            $params = array('num_m' => $num_m);
+            $num_message = 1;
+            $params = array('num_message' => $num_message);
         }
     }
 
 //投稿内容の表示
 try{
-    $stt = $db->prepare('select post.id, member.name, post.contents from post, member where post.user_id = member.id order by post.id desc');
-    $stt->execute();
-    $item = $stt->fetchAll(PDO::FETCH_ASSOC);
+    $db = getdb();
+    $select = $db->prepare('select post.id, member.name, post.contents from post, member where post.user_id = member.id order by post.id desc');
+    $select->execute();
+    $item = $select->fetchAll(PDO::FETCH_ASSOC);
     $db = NULL;
     $smarty->assign('item', $item);
 }catch (PDOException $e) {
@@ -145,7 +185,7 @@ try{
 
 //ログアウトボタンを押したら、ログアウト画面に移行
 if(isset($_POST["logout"])){
-    header("Location:hw3_logout.php");
+    header("Location: ./hw3_logout.php");
 }else{
     //何もしない
 }

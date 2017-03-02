@@ -9,7 +9,7 @@ function getDb()
         $db = new PDO($dsn, $usr, $password);
         $db->exec('SET NAMES utf8');
     } catch (PDOException $e) {
-        die("接続エラー:{$e->getMessage()}");
+        die("error:{$e->getMessage()}");
     }
     return $db;
 }

@@ -15,68 +15,68 @@
         ※注意事項：他人の投稿を変更、削除することができません。変更または削除したい投稿は自分の投稿に限る。<br>
         <hr>
         本文：<br>
-        <textarea name="con" cols="50" rows="3" maxlength="150" wrap="hard" placeholder="150字以内に入力してください。"></textarea><br>
-        <input type="submit" name="sub" value="投稿"><br><br>
-        <input type="submit" name="cha" value="変更">
-        <input type="submit" name="del" value="削除">
+        <textarea name="contents" cols="50" rows="3" maxlength="150" wrap="hard" placeholder="150字以内に入力してください。"></textarea><br>
+        <input type="submit" name="submit" value="投稿"><br><br>
+        <input type="submit" name="change" value="変更">
+        <input type="submit" name="delete" value="削除">
         投稿ID<input type="text" name="id" value="">
         <br>
 </form>
 
 {*投稿する際の入力チェック*}
-{if  !empty($pa.sub) && $pa.con === '' }
+{if  !empty($pa.submit) && $pa.contents === '' }
     <p>本文を入力してください。</p>
 {/if}
 {*投稿成功と失敗の表示*}
-{if isset($params.main_m1)}
+{if isset($params.main_message1)}
     <p>投稿しました。</p>
 {/if}
-{if isset($params.main_m2)}
+{if isset($params.main_message2)}
     <p>投稿失敗。</p>
 {/if}
 
 
 
 {*変更する際の入力チェック*}
-{if !empty($pa.cha) && $pa.id === '' && $pa.con === ''}
+{if !empty($pa.change) && $pa.id === '' && $pa.contents === ''}
     <p>投稿IDと新しい内容を入れてください。</p>
-{elseif  !empty($pa.cha) && $pa.id !== '' && $pa.con ==='' }
+{elseif  !empty($pa.change) && $pa.id !== '' && $pa.contents ==='' }
     <p>新しい内容を入れてください。</p>
-{elseif !empty($pa.cha) && $pa.id === '' && $pa.con !== ''}
+{elseif !empty($pa.change) && $pa.id === '' && $pa.contents !== ''}
     <p>投稿IDを入れてください。</p>"
 {/if}
 {*変更成功と失敗の表示*}
-{if isset($params.main_m3)}
+{if isset($params.main_message3)}
     <p>変更しました。</p>
 {/if}
-{if isset($params.main_m4)}
+{if isset($params.main_message4)}
     <p>変更失敗。</p>
 {/if}
 {*変更する際入力した投稿IDが他人のIDである場合のエラー表示*}
-{if isset($params.main_m5)}
+{if isset($params.main_message5)}
     <p>入力した投稿IDは他人の投稿です。注意事項をもう一度読んでください。</p>
 {/if}
 
 
 
 {*削除する際の入力チェック*}
-{if !empty($pa.del) && $pa.id === ''}
+{if !empty($pa.delete) && $pa.id === ''}
 <p>投稿IDを入れてください。</p>
 {/if}
 {*削除成功と失敗の表示*}
-{if isset($params.main_m6)}
+{if isset($params.main_message6)}
     <p>削除しました。</p>
 {/if}
-{if isset($params.main_m7)}
+{if isset($params.main_message7)}
     <p>削除失敗。</p>
 {/if}
 {*削除する際入力した投稿IDが他人のIDである場合のエラー表示*}
-{if isset($params.main_m8)}
+{if isset($params.main_message8)}
     <p>入力した投稿IDは他人の投稿です。注意事項をもう一度読んでください。</p>
 {/if}
 
 {*半角英数字であるかどうかのチェック*}
-{if isset($params.num_m)}
+{if isset($params.num_message)}
     <p>投稿IDの空欄に半角英数を入力してください</p>
 {/if}
 

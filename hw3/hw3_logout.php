@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once( 'hw3_common.php' );
+require_once( './hw3_common.php' );
 
 if($_SESSION['id']!==''){
     echo "ログアウトしました";

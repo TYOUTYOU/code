@@ -1,97 +1,108 @@
 <?php
 session_start();
 
-//データベース接続
-require_once 'hw3_dbm.php';
-$db = getdb();
+require_once ('./hw3_dbm.php');
 
 //smartyの呼び出し
-require_once'hw3_common.php';
+require_once ('./hw3_common.php');
 
 //エンコード
-require_once 'Encode.php';
+require_once ('./Encode.php');
 
-$name = isset($_POST['name'])? htmlspecialchars($_POST['name']) : null;;
-$password = isset($_POST['password'])? htmlspecialchars($_POST['password']) : null;;
-$log = isset($_POST['log'])? htmlspecialchars($_POST['log']) : null;;
-$reg= isset($_POST['reg'])? htmlspecialchars($_POST['reg']) : null;;
+$name = isset($_POST['name'])? $_POST['name'] : null;
+$password = isset($_POST['password'])? $_POST['password'] : null;
+$login = isset($_POST['login'])? $_POST['login'] : null;
+$register= isset($_POST['register'])? $_POST['register']: null;
 
     $pa = array(
         'name' => $name,
         'password' => $password,
-        'log' => $log,
-        'reg' => $reg,
+        'login' => $login,
+        'register' => $register,
     );
-    $params ='';
+    $params = '';
+
 
 //ログイン機能
-    if (!empty($log) && $name !== '' && $password !== '') {
+    if (!empty($login) && $name !== '' && $password !== '') {
         //半角英数字であるかどうかのチェック
-        if(preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/",$password)){
-        $db = getdb();
-        $sel_id = $db->prepare("SELECT id FROM member WHERE name ='".$name."'  AND password = '".$password."'");
-        $sel_id->execute();
-        $result = $sel_id->fetch();
-        $db_id = $result['id'];
+        if (preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/", $password)) {
+            try{
+                $db = getdb();
+                $select_id = $db->prepare("SELECT id FROM member WHERE name ='" . $name . "'  AND password = '" . $password . "'");
+                $select_id->bindValue(1,$name);
+                $select_id->bindValue(2,$password);
+                $select_id->execute();
+                $result = $select_id->fetch();
+                $db_id = $result['id'];
 
-        if ($db_id === NULL) {
-            $err1 = 1;
-            $params = array('err1' => $err1);
+                if ($db_id === NULL) {
+                    $error1 = 1;
+                    $params = array('error1' => $error1);
+                } else {
+                    $_SESSION['id'] = $result['id'];
+                    $_SESSION['name'] = $name;
+                    header("Location: ./hw3_main.php");
+                    exit();
+                }
+            }catch (PDOException $e) {
+                die("エラーメッセージ: {$e->getMessage()}");
+            }
         } else {
-            $_SESSION['id'] = $result['id'];
-            $_SESSION['name'] = $name;
-            header('Location: http://localhost/hw3_main.php');
-            exit();
-        }
-
-        }else{
-            $num_m= 1;
-            $params = array('num_m' => $num_m);
+            $num_message = 1;
+            $params = array('num_message' => $num_message);
         }
     }
 
 //登録機能
-if (!empty($_POST['reg']) && $name !== '' && $password !== '') {
-    //半角英数字であるかどうかのチェック
-    if(preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/",$password)) {
-
-        $sel_name = $db->prepare("SELECT name FROM member WHERE name =? ");
-        $sel_name->bindValue(1, $name);
-        $sel_name->execute();
-        $result_n1 = $sel_name->fetch();
-        $db_name1 = $result_n1['name'];
-
-        //入力したユーザー名がすでに登録されたかどうかのチェック
-        if ("$name" === "$db_name1") {
-            $err2 = 1;
-            $params = array('err2' => $err2);
-
-        } else {
-
-            $ins = $db->prepare('INSERT INTO member(name,password)VALUES(:name,:password)');//データベースにデータを入れる
-            $ins->bindValue(':name', $name);
-            $ins->bindValue(':password',$password);
-            $ins->execute();
-            $result_n2 = $ins->fetch();
-            $db_name2 = $result_n2['name'];
-
-            //登録成功かどうかのチェックと表示
-            if ($db_name2 !== '') {
-                $m1 = 1;
-                $params = array('m1' => $m1);
-            } else {
-                $m2 = 1;
-                $params = array('m2' => $m2);
+    if (!empty($_POST['register']) && $name !== '' && $password !== '') {
+        //半角英数字であるかどうかのチェック
+        if (preg_match("/^[a-zA-Z0-9]+$/", $name) && preg_match("/^[a-zA-Z0-9]+$/", $password)) {
+            try{
+                $db = getdb();
+                $select_name = $db->prepare("SELECT name FROM member WHERE name =? ");
+                $select_name->bindValue(1, $name);
+                $select_name->execute();
+                $result_name1 = $select_name->fetch();
+                $db_name1 = $result_name1['name'];
+            }catch (PDOException $e) {
+                die("エラーメッセージ: {$e->getMessage()}");
             }
-        }
-    }else{
-        $num_m= 1;
-        $params = array('num_m' => $num_m);
-    }
-}
+            //入力したユーザー名がすでに登録されたかどうかのチェック
+            if ("$name" === "$db_name1") {
+                $error2 = 1;
+                $params = array('error2' => $error2);
 
-$smarty->assign('pa', $pa);
-$smarty->assign('params', $params);
-$smarty->display('hw3_login.tpl');
+            } else {
+                try{
+                    $db = getdb();
+                    $insert = $db->prepare('INSERT INTO member(name,password)VALUES(:name,:password)');//データベースにデータを入れる
+                    $insert->bindValue(':name', $name);
+                    $insert->bindValue(':password', $password);
+                    $insert->execute();
+                    $result_name2 = $insert->fetch();
+                    $db_name2 = $result_name2['name'];
+                }catch (PDOException $e) {
+                    die("エラーメッセージ: {$e->getMessage()}");
+                }
+
+                //登録成功かどうかのチェックと表示
+                if ($db_name2 !== '') {
+                    $message1 = 1;
+                    $params = array('message1' => $message1);
+                } else {
+                    $message2 = 1;
+                    $params = array('message2' => $message2);
+                }
+            }
+        } else {
+            $num_m = 1;
+            $params = array('num_message' => $num_message);
+        }
+    }
+
+    $smarty->assign('pa', $pa);
+    $smarty->assign('params', $params);
+    $smarty->display('hw3_login.tpl');
 
 ?>
